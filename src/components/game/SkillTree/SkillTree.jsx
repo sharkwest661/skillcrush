@@ -35,36 +35,19 @@ const SkillTree = () => {
     );
     if (!prereqsMet) return false;
 
-    // Check skill points
-    return Object.keys(skillData).every((key) => {
-      if (
-        [
-          "prereqs",
-          "category",
-          "earnings",
-          "description",
-          "difficulty",
-        ].includes(key)
-      ) {
-        return true;
-      }
-      return player.skillPoints[key] >= skillData[key];
+    // Check skill points - FIXED LOGIC
+    const skillPointCosts = getSkillCost(skillData);
+    return Object.entries(skillPointCosts).every(([colorId, cost]) => {
+      return player.skillPoints[colorId] >= cost;
     });
   };
 
-  // Get skill cost display
+  // Get skill cost display - FIXED TO EXCLUDE NON-COST PROPERTIES
   const getSkillCost = (skillData) => {
     const costs = {};
     Object.keys(skillData).forEach((key) => {
-      if (
-        ![
-          "prereqs",
-          "category",
-          "earnings",
-          "description",
-          "difficulty",
-        ].includes(key)
-      ) {
+      // Only include color-based skill point costs
+      if (SKILL_COLORS.some((color) => color.id === key)) {
         costs[key] = skillData[key];
       }
     });
@@ -192,11 +175,7 @@ const SkillTree = () => {
                         <span className={styles.skillDifficulty}>
                           {getDifficultyStars(skill.difficulty)}
                         </span>
-                        {skill.earnings > 0 && (
-                          <span className={styles.skillEarnings}>
-                            💰 ${skill.earnings}/day
-                          </span>
-                        )}
+                        {/* REMOVED EARNINGS DISPLAY */}
                       </div>
                     </div>
 
@@ -273,7 +252,7 @@ const SkillTree = () => {
         ))}
       </div>
 
-      {/* Stats Summary */}
+      {/* Stats Summary - REMOVED EARNINGS */}
       <div className={styles.skillSummary}>
         <div className={styles.summaryItem}>
           <span>📚 Skills Learned</span>
@@ -289,16 +268,18 @@ const SkillTree = () => {
           </span>
         </div>
         <div className={styles.summaryItem}>
-          <span>💰 Daily Earnings</span>
+          <span>🎯 Categories Mastered</span>
           <span>
-            $
-            {Object.keys(player.skills)
-              .filter((skill) => player.skills[skill])
-              .reduce(
-                (total, skill) => total + (SKILL_TREE[skill]?.earnings || 0),
-                0
-              )}
-            /day
+            {
+              Object.keys(SKILL_CATEGORIES).filter((category) => {
+                const categorySkills = Object.keys(SKILL_TREE).filter(
+                  (skillName) => SKILL_TREE[skillName].category === category
+                );
+                return categorySkills.some(
+                  (skillName) => player.skills[skillName]
+                );
+              }).length
+            }
           </span>
         </div>
       </div>

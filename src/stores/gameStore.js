@@ -139,7 +139,7 @@ export const useGameStore = create((set, get) => ({
       };
     }),
 
-  // Skill Learning
+  // Skill Learning - FIXED TO USE ONLY SKILL POINT COLORS
   learnSkill: (skillName, skillData) =>
     set((state) => {
       if (state.player.skills[skillName]) {
@@ -154,23 +154,25 @@ export const useGameStore = create((set, get) => ({
         return state;
       }
 
-      // Check skill point costs
+      // Extract only skill point costs (color-based properties)
+      const skillColors = [
+        "red",
+        "green",
+        "blue",
+        "yellow",
+        "purple",
+        "orange",
+        "pink",
+        "cyan",
+      ];
       const costs = {};
-      Object.keys(skillData).forEach((key) => {
-        if (
-          ![
-            "prereqs",
-            "category",
-            "earnings",
-            "description",
-            "difficulty",
-          ].includes(key)
-        ) {
-          costs[key] = skillData[key];
+      skillColors.forEach((colorId) => {
+        if (skillData[colorId] && skillData[colorId] > 0) {
+          costs[colorId] = skillData[colorId];
         }
       });
 
-      // Try to spend skill points
+      // Check if we have enough skill points
       const canSpend = Object.entries(costs).every(
         ([colorId, amount]) => state.player.skillPoints[colorId] >= amount
       );

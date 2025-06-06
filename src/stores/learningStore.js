@@ -206,14 +206,29 @@ export const useLearningStore = create((set, get) => ({
       newSession.matchesFound += 1;
       newSession.bestCombo = Math.max(newSession.bestCombo, newCombo);
 
-      // Track skill points earned this session
-      Object.keys(colorCounts).forEach((colorId) => {
-        const basePoints = colorCounts[colorId];
-        const bonus = Math.floor(basePoints / 4); // Bonus for 4+ matches
-        const totalPoints = basePoints + bonus;
-        newSession.skillPointsEarned[colorId] =
-          (newSession.skillPointsEarned[colorId] || 0) + totalPoints;
-      });
+      // NEW SKILL POINT SYSTEM: 1 skill point per combo (3+ match)
+      // Award 1 skill point to the most common color in the match
+      if (matchPositions.length >= 3) {
+        // Find the color that appears most in this match
+        let mostCommonColor = null;
+        let maxCount = 0;
+
+        Object.entries(colorCounts).forEach(([colorId, count]) => {
+          if (count > maxCount) {
+            maxCount = count;
+            mostCommonColor = colorId;
+          }
+        });
+
+        // Award 1 skill point to the most common color
+        if (mostCommonColor) {
+          newSession.skillPointsEarned[mostCommonColor] =
+            (newSession.skillPointsEarned[mostCommonColor] || 0) + 1;
+
+          // Show floating text for skill point gained
+          get().addFloatingText(`+1 Skill Point!`, "skill", 300, 180);
+        }
+      }
 
       // Add floating texts for visual feedback
       get().addFloatingText(`+${totalScore}`, "score", 300, 100);

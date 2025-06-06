@@ -8,11 +8,11 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // Auto-import common SCSS files
-        additionalData: `
-          @import "src/styles/_variables.scss";
-          @import "src/styles/_mixins.scss";
-        `,
+        // Remove auto-import to avoid conflicts with manual imports
+        // additionalData: `
+        //   @import "src/styles/_variables.scss";
+        //   @import "src/styles/_mixins.scss";
+        // `,
       },
     },
     modules: {
