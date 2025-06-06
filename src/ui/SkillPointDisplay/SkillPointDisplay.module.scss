@@ -1,4 +1,7 @@
-// Skill Point Display Styles
+// Skill Point Display Styles - FIXED IMPORT PATHS
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
 .skillPointGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));

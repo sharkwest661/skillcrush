@@ -11,12 +11,12 @@ export const useGameStore = create((set, get) => ({
     currentJob: null,
     skills: {}, // learned skills object
     skillPoints: {
-      red: 15, // Analytical
-      green: 12, // Creativity
-      blue: 8, // Systems
-      yellow: 5, // Communication
-      purple: 20, // Technical
-      orange: 3, // Business
+      red: 0, // Analytical
+      green: 0, // Creativity
+      blue: 0, // Systems
+      yellow: 0, // Communication
+      purple: 0, // Technical
+      orange: 0, // Business
       pink: 0, // Teamwork
       cyan: 0, // Presentation
     },
@@ -318,12 +318,12 @@ export const useGameStore = create((set, get) => ({
         currentJob: null,
         skills: {},
         skillPoints: {
-          red: 15,
-          green: 12,
-          blue: 8,
-          yellow: 5,
-          purple: 20,
-          orange: 3,
+          red: 0,
+          green: 0,
+          blue: 0,
+          yellow: 0,
+          purple: 0,
+          orange: 0,
           pink: 0,
           cyan: 0,
         },

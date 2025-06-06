@@ -104,15 +104,16 @@ const LearningTab = () => {
         </div>
       ))}
 
-      <div className={styles.learningContent}>
-        {/* Left Column - Game Board */}
-        <div className={styles.gameColumn}>
+      <div className={styles.learningLayout}>
+        {/* LEFT SECTION - Game Board & Live Stats */}
+        <div className={styles.gameSection}>
           <div className={styles.gameHeader}>
             <h2>🎮 SkillCrush</h2>
             <p>Match 3 or more skill gems to earn skill points!</p>
           </div>
 
-          <div className={styles.gameStats}>
+          {/* Live Game Stats */}
+          <div className={styles.liveStats}>
             <div className={styles.statItem}>
               <span className={styles.statLabel}>Score</span>
               <span className={styles.statValue}>{score.toLocaleString()}</span>
@@ -127,65 +128,79 @@ const LearningTab = () => {
             </div>
           </div>
 
+          {/* Game Board */}
           <SkillCrushBoard />
 
-          {/* Session Summary */}
-          <div className={styles.sessionSummary}>
+          {/* Session Summary & Claim Rewards */}
+          <div className={styles.sessionCard}>
             <h3>📊 Current Session</h3>
-            <div className={styles.summaryGrid}>
-              <div className={styles.summaryItem}>
-                <span>🎯 Matches Found</span>
+            <div className={styles.sessionGrid}>
+              <div className={styles.sessionStat}>
+                <span>🎯 Matches</span>
                 <span>{sessionSummary.matches}</span>
               </div>
-              <div className={styles.summaryItem}>
-                <span>⚡ Points Earned</span>
+              <div className={styles.sessionStat}>
+                <span>⚡ Points</span>
                 <span>{sessionSummary.totalPoints}</span>
               </div>
-              <div className={styles.summaryItem}>
+              <div className={styles.sessionStat}>
                 <span>🔥 Best Combo</span>
                 <span>{sessionSummary.bestCombo}x</span>
               </div>
-              <div className={styles.summaryItem}>
-                <span>🌟 Estimated XP</span>
+              <div className={styles.sessionStat}>
+                <span>🌟 XP</span>
                 <span>{sessionSummary.estimatedXP}</span>
               </div>
             </div>
 
+            {/* Session Points Preview */}
             {sessionSummary.totalPoints > 0 && (
-              <button
-                className={styles.endSessionButton}
-                onClick={handleEndSession}
-              >
-                🎁 Claim Rewards & Start Fresh
-              </button>
+              <div className={styles.sessionPreview}>
+                <h4>💎 Points Earned This Session:</h4>
+                <SkillPointDisplay
+                  skillPoints={session.skillPointsEarned}
+                  size="small"
+                  showLabels={false}
+                />
+                <button
+                  className={styles.claimButton}
+                  onClick={handleEndSession}
+                >
+                  🎁 Claim Rewards & Start Fresh
+                </button>
+              </div>
             )}
           </div>
         </div>
 
-        {/* Right Column - Skills */}
-        <div className={styles.skillsColumn}>
-          {/* Current Skill Points */}
-          <div className={styles.skillPointsSection}>
+        {/* RIGHT SECTION - Skill Management */}
+        <div className={styles.skillSection}>
+          {/* Available Skill Points */}
+          <div className={styles.skillPointsCard}>
             <h3>⚡ Available Skill Points</h3>
+            <p className={styles.cardSubtitle}>
+              Spend these points to learn new skills
+            </p>
             <SkillPointDisplay skillPoints={player.skillPoints} />
+
+            {Object.values(player.skillPoints).every(
+              (points) => points === 0
+            ) && (
+              <div className={styles.noPointsMessage}>
+                <p>💡 Play SkillCrush to earn skill points!</p>
+                <p>
+                  Match skill gems to collect points you can spend on learning.
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* Session Skill Points (if any earned) */}
-          {Object.keys(session.skillPointsEarned).length > 0 && (
-            <div className={styles.sessionPointsSection}>
-              <h3>🎯 Points Earned This Session</h3>
-              <SkillPointDisplay skillPoints={session.skillPointsEarned} />
-              <p className={styles.sessionNote}>
-                💡 These points will be added to your total when you claim
-                rewards!
-              </p>
-            </div>
-          )}
-
-          {/* Skill Tree */}
-          <div className={styles.skillTreeSection}>
+          {/* Skill Tree - Completely Separate */}
+          <div className={styles.skillTreeCard}>
             <h3>📚 Skill Tree</h3>
-            <p>Learn new skills to unlock better job opportunities!</p>
+            <p className={styles.cardSubtitle}>
+              Learn skills to unlock better job opportunities
+            </p>
             <SkillTree />
           </div>
         </div>
