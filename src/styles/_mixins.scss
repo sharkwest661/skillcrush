@@ -1,0 +1,370 @@
+// SCSS Mixins for SkillCrush Game
+
+// Responsive breakpoints
+@mixin mobile {
+  @media (max-width: #{map-get($breakpoints, sm) - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: map-get($breakpoints, sm)) and (max-width: #{map-get($breakpoints, md) - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: map-get($breakpoints, md)) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: map-get($breakpoints, lg)) {
+    @content;
+  }
+}
+
+@mixin xl-desktop {
+  @media (min-width: map-get($breakpoints, xl)) {
+    @content;
+  }
+}
+
+// Typography mixins
+@mixin font-size($size) {
+  font-size: map-get($font-sizes, $size);
+}
+
+@mixin font-weight($weight) {
+  font-weight: map-get($font-weights, $weight);
+}
+
+@mixin line-height($height) {
+  line-height: map-get($line-heights, $height);
+}
+
+@mixin text-style($size, $weight: normal, $height: normal) {
+  @include font-size($size);
+  @include font-weight($weight);
+  @include line-height($height);
+}
+
+// Spacing mixins
+@mixin margin($direction, $size) {
+  @if $direction == "all" {
+    margin: map-get($spacing, $size);
+  } @else if $direction == "vertical" {
+    margin-top: map-get($spacing, $size);
+    margin-bottom: map-get($spacing, $size);
+  } @else if $direction == "horizontal" {
+    margin-left: map-get($spacing, $size);
+    margin-right: map-get($spacing, $size);
+  } @else {
+    margin-#{$direction}: map-get($spacing, $size);
+  }
+}
+
+@mixin padding($direction, $size) {
+  @if $direction == "all" {
+    padding: map-get($spacing, $size);
+  } @else if $direction == "vertical" {
+    padding-top: map-get($spacing, $size);
+    padding-bottom: map-get($spacing, $size);
+  } @else if $direction == "horizontal" {
+    padding-left: map-get($spacing, $size);
+    padding-right: map-get($spacing, $size);
+  } @else {
+    padding-#{$direction}: map-get($spacing, $size);
+  }
+}
+
+// Border radius mixin
+@mixin border-radius($size) {
+  border-radius: map-get($border-radius, $size);
+}
+
+// Shadow mixin
+@mixin shadow($size) {
+  box-shadow: map-get($shadows, $size);
+}
+
+// Color helper mixins
+@mixin color($color-name) {
+  color: map-get($colors, $color-name);
+}
+
+@mixin background-color($color-name) {
+  background-color: map-get($colors, $color-name);
+}
+
+@mixin border-color($color-name) {
+  border-color: map-get($colors, $color-name);
+}
+
+// Gradient mixin
+@mixin gradient-background($gradient-name) {
+  background: map-get($gradients, $gradient-name);
+}
+
+// Flexbox helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Grid helpers
+@mixin grid-center {
+  display: grid;
+  place-items: center;
+}
+
+@mixin grid-responsive($min-width, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+// Transition helpers
+@mixin transition($property: all, $duration: normal, $timing: ease) {
+  transition: $property map-get($transitions, $duration) $timing;
+}
+
+@mixin transition-multiple($properties...) {
+  transition: $properties;
+}
+
+// Transform helpers
+@mixin translate($x: 0, $y: 0) {
+  transform: translate($x, $y);
+}
+
+@mixin scale($factor) {
+  transform: scale($factor);
+}
+
+@mixin rotate($angle) {
+  transform: rotate($angle);
+}
+
+// Position helpers
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin fixed-fill {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// Game-specific mixins
+@mixin game-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  @include border-radius("2xl");
+  @include padding("all", 6);
+  @include shadow("lg");
+  @include transition();
+
+  &:hover {
+    @include shadow("xl");
+    transform: translateY(-2px);
+  }
+}
+
+@mixin skill-gem($color) {
+  background: $color;
+  @include border-radius("lg");
+  @include shadow("md");
+  @include transition();
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    @include absolute-fill;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    pointer-events: none;
+  }
+
+  &:hover {
+    @include shadow("lg");
+    transform: scale(1.05);
+  }
+}
+
+@mixin notification-style($color) {
+  border-left: 4px solid $color;
+
+  .notification-icon {
+    color: $color;
+  }
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  @include padding("horizontal", 4);
+  @include padding("vertical", 3);
+  @include border-radius("lg");
+  @include font-weight("semibold");
+  @include transition();
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  @include gradient-background("primary");
+  color: white;
+  @include shadow("md");
+
+  &:hover:not(:disabled) {
+    @include shadow("lg");
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background: white;
+  @include color("gray-700");
+  border: 2px solid map-get($colors, "gray-300");
+
+  &:hover:not(:disabled) {
+    @include border-color("primary");
+    @include color("primary");
+  }
+}
+
+// Animation helpers
+@mixin animate(
+  $name,
+  $duration: normal,
+  $timing: ease,
+  $delay: 0s,
+  $iteration: 1,
+  $direction: normal,
+  $fill-mode: both
+) {
+  animation: $name map-get($animation-durations, $duration) $timing $delay
+    $iteration $direction $fill-mode;
+}
+
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+// Scrollbar styling
+@mixin custom-scrollbar(
+  $width: 8px,
+  $track-color: rgba(0, 0, 0, 0.1),
+  $thumb-color: rgba(0, 0, 0, 0.3)
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+    @include border-radius("sm");
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    @include border-radius("sm");
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// Glass morphism effect
+@mixin glass-morphism($opacity: 0.95, $blur: 10px) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+// Skill color helper
+@mixin skill-color($skill-id) {
+  $color: map-get($skill-point-colors, $skill-id);
+  --skill-color: #{$color};
+}
+
+// Game board cell positioning
+@mixin cell-position($row, $col) {
+  grid-row: #{$row + 1};
+  grid-column: #{$col + 1};
+}
+
+// Loading spinner
+@mixin loading-spinner($size: 2rem, $color: map-get($colors, "primary")) {
+  width: $size;
+  height: $size;
+  border: 3px solid rgba($color, 0.3);
+  border-top: 3px solid $color;
+  @include border-radius("full");
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -1,0 +1,252 @@
+// SCSS Variables for SkillCrush Game
+// Colors
+$colors: (
+  // Primary Brand Colors
+  primary: #667eea,
+  primary-dark: #764ba2,
+  primary-light: #a8c8ff,
+
+  // Skill Colors
+  analytical: #ff4757,
+  // Red
+  creativity: #2ed573,
+  // Green
+  systems: #3742fa,
+  // Blue
+  communication: #ffa502,
+  // Yellow
+  technical: #a55eea,
+  // Purple
+  business: #ff6348,
+  // Orange
+  teamwork: #ff3838,
+  // Pink
+  presentation: #00d2d3,
+
+  // Cyan
+  // Semantic Colors
+  success: #48bb78,
+  success-dark: #38a169,
+  error: #e53e3e,
+  error-dark: #c53030,
+  warning: #ed8936,
+  warning-dark: #dd6b20,
+  info: #3182ce,
+  info-dark: #2c5282,
+
+  // Neutral Colors
+  white: #ffffff,
+  gray-50: #f7fafc,
+  gray-100: #edf2f7,
+  gray-200: #e2e8f0,
+  gray-300: #cbd5e0,
+  gray-400: #a0aec0,
+  gray-500: #718096,
+  gray-600: #4a5568,
+  gray-700: #2d3748,
+  gray-800: #1a202c,
+  gray-900: #171923,
+  black: #000000
+);
+
+// Typography
+$font-family-primary: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+$font-family-heading: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+$font-sizes: (
+  xs: 0.75rem,
+  // 12px
+  sm: 0.875rem,
+  // 14px
+  base: 1rem,
+  // 16px
+  lg: 1.125rem,
+  // 18px
+  xl: 1.25rem,
+  // 20px
+  "2xl": 1.5rem,
+  // 24px
+  "3xl": 1.875rem,
+  // 30px
+  "4xl": 2.25rem,
+  // 36px
+  "5xl": 3rem // 48px,
+);
+
+$font-weights: (
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  extrabold: 800,
+);
+
+$line-heights: (
+  tight: 1.25,
+  snug: 1.375,
+  normal: 1.5,
+  relaxed: 1.625,
+  loose: 2,
+);
+
+// Spacing
+$spacing: (
+  0: 0,
+  1: 0.25rem,
+  // 4px
+  2: 0.5rem,
+  // 8px
+  3: 0.75rem,
+  // 12px
+  4: 1rem,
+  // 16px
+  5: 1.25rem,
+  // 20px
+  6: 1.5rem,
+  // 24px
+  8: 2rem,
+  // 32px
+  10: 2.5rem,
+  // 40px
+  12: 3rem,
+  // 48px
+  16: 4rem,
+  // 64px
+  20: 5rem,
+  // 80px
+  24: 6rem,
+  // 96px
+  32: 8rem,
+  // 128px
+  40: 10rem,
+  // 160px
+  48: 12rem,
+  // 192px
+  56: 14rem,
+  // 224px
+  64: 16rem // 256px,
+);
+
+// Border Radius
+$border-radius: (
+  none: 0,
+  sm: 0.125rem,
+  // 2px
+  default: 0.25rem,
+  // 4px
+  md: 0.375rem,
+  // 6px
+  lg: 0.5rem,
+  // 8px
+  xl: 0.75rem,
+  // 12px
+  "2xl": 1rem,
+  // 16px
+  "3xl": 1.5rem,
+  // 24px
+  full: 9999px,
+);
+
+// Shadows
+$shadows: (
+  sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  default: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+  0 1px 2px 0 rgba(0, 0, 0, 0.06),
+  md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -1px rgba(0, 0, 0, 0.06),
+  lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0 4px 6px -2px rgba(0, 0, 0, 0.05),
+  xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  0 10px 10px -5px rgba(0, 0, 0, 0.04),
+  "2xl": 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+  inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06),
+  none: none,
+);
+
+// Transitions
+$transitions: (
+  fast: 0.15s,
+  normal: 0.3s,
+  slow: 0.5s,
+);
+
+// Z-index
+$z-index: (
+  dropdown: 1000,
+  sticky: 1020,
+  fixed: 1030,
+  modal-backdrop: 1040,
+  modal: 1050,
+  popover: 1060,
+  tooltip: 1070,
+  notification: 1080,
+);
+
+// Breakpoints
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  "2xl": 1536px,
+);
+
+// Game-specific variables
+$game-board-size: 480px;
+$game-cell-size: 60px;
+$game-cell-gap: 4px;
+
+// Gradients
+$gradients: (
+  primary:
+    linear-gradient(
+      135deg,
+      #{map-get($colors, primary)} 0%,
+      #{map-get($colors, primary-dark)} 100%
+    ),
+  success:
+    linear-gradient(
+      135deg,
+      #{map-get($colors, success)} 0%,
+      #{map-get($colors, success-dark)} 100%
+    ),
+  error:
+    linear-gradient(
+      135deg,
+      #{map-get($colors, error)} 0%,
+      #{map-get($colors, error-dark)} 100%
+    ),
+  warning:
+    linear-gradient(
+      135deg,
+      #{map-get($colors, warning)} 0%,
+      #{map-get($colors, warning-dark)} 100%
+    ),
+  info:
+    linear-gradient(
+      135deg,
+      #{map-get($colors, info)} 0%,
+      #{map-get($colors, info-dark)} 100%
+    ),
+);
+
+// Animation durations
+$animation-durations: (
+  fast: 150ms,
+  normal: 300ms,
+  slow: 500ms,
+  slower: 800ms,
+);
+
+// Game-specific skill point colors
+$skill-point-colors: (
+  red: #{map-get($colors, analytical)},
+  green: #{map-get($colors, creativity)},
+  blue: #{map-get($colors, systems)},
+  yellow: #{map-get($colors, communication)},
+  purple: #{map-get($colors, technical)},
+  orange: #{map-get($colors, business)},
+  pink: #{map-get($colors, teamwork)},
+  cyan: #{map-get($colors, presentation)},
+);

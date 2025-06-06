@@ -1,0 +1,168 @@
+// Work Tab Styles
+.workTab {
+  width: 100%;
+  min-height: 400px;
+}
+
+.workHeader {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  h2 {
+    color: #4a5568;
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+  }
+
+  p {
+    color: #718096;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.workContent {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.placeholder {
+  max-width: 600px;
+  margin: 0 auto;
+
+  h3 {
+    color: #4a5568;
+    font-size: 1.5rem;
+    margin: 0 0 20px 0;
+    font-weight: 700;
+  }
+
+  p {
+    color: #718096;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+  }
+
+  ul {
+    text-align: left;
+    color: #4a5568;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 20px 0;
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.noJob {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  margin: 50px auto;
+  border-left: 4px solid #e53e3e;
+
+  h2 {
+    color: #4a5568;
+    font-size: 1.8rem;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+  }
+
+  p {
+    color: #718096;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .workHeader {
+    padding: 20px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .workContent,
+  .noJob {
+    padding: 25px;
+  }
+
+  .placeholder {
+    h3 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    ul {
+      font-size: 0.9rem;
+    }
+  }
+
+  .noJob {
+    margin: 30px auto;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .workHeader,
+  .workContent,
+  .noJob {
+    padding: 20px;
+  }
+
+  .placeholder h3 {
+    font-size: 1.2rem;
+  }
+
+  .noJob {
+    margin: 20px auto;
+
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+}

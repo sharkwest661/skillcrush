@@ -1,0 +1,350 @@
+// SkillCrush Board Styles
+.boardContainer {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 4px;
+  max-width: 480px;
+  width: 100%;
+  aspect-ratio: 1/1;
+  margin: 0 auto 20px auto;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cell {
+  aspect-ratio: 1/1;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #f0f0f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+
+  // GPU acceleration for smooth animations
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity, box-shadow;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.05) translateZ(0);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    z-index: 2;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95) translateZ(0);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  // Selected state
+  &.cellSelected {
+    transform: scale(1.1) rotate(3deg) translateZ(0);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.9),
+      0 0 50px rgba(102, 126, 234, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    animation: cellPulse 1s ease-in-out infinite;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+      border-radius: 14px;
+      z-index: -1;
+      animation: borderGlow 2s linear infinite;
+    }
+  }
+
+  // Matched state
+  &.cellMatched {
+    animation: cellMatch 0.8s ease-in-out;
+    z-index: 5;
+  }
+
+  // Click animation
+  &.cellClick {
+    animation: cellClick 0.2s ease-out;
+  }
+
+  // Invalid move animation
+  &.cellInvalid {
+    animation: cellShake 0.6s ease-in-out;
+  }
+}
+
+.cellEmoji {
+  font-size: 1.8rem;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+
+  .cellSelected & {
+    font-size: 2rem;
+    animation: emojiDance 0.5s ease-in-out infinite alternate;
+  }
+
+  .cellMatched & {
+    animation: emojiExplode 0.8s ease-in-out;
+  }
+}
+
+.cellGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  .cell:hover &,
+  .cellSelected & {
+    opacity: 1;
+  }
+}
+
+.loadingBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #4a5568;
+
+  .loadingSpinner {
+    font-size: 3rem;
+    animation: spin 2s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #718096;
+  }
+}
+
+.instructions {
+  text-align: center;
+  color: #4a5568;
+
+  p {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #667eea;
+  }
+
+  .instructionTips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+
+    span {
+      background: rgba(102, 126, 234, 0.1);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: #4a5568;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+  }
+}
+
+// Animations
+@keyframes cellPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.9),
+      0 0 50px rgba(102, 126, 234, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(255, 255, 255, 1),
+      0 0 70px rgba(102, 126, 234, 0.7), 0 12px 35px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes borderGlow {
+  0% {
+    background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+  }
+  50% {
+    background: linear-gradient(45deg, #764ba2, #667eea, #764ba2);
+  }
+  100% {
+    background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+  }
+}
+
+@keyframes cellMatch {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.2) rotate(90deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(0.8) rotate(180deg);
+    opacity: 0.6;
+  }
+  75% {
+    transform: scale(1.1) rotate(270deg);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.3) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes cellClick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes cellShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes emojiDance {
+  0% {
+    transform: rotate(-2deg) scale(1);
+  }
+  100% {
+    transform: rotate(2deg) scale(1.05);
+  }
+}
+
+@keyframes emojiExplode {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    transform: scale(1.5) rotate(180deg);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)) brightness(1.5);
+  }
+  100% {
+    transform: scale(0.5) rotate(360deg);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) brightness(2);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .boardContainer {
+    padding: 15px;
+  }
+
+  .board {
+    max-width: 350px;
+    gap: 3px;
+    padding: 8px;
+  }
+
+  .cell {
+    border-radius: 8px;
+  }
+
+  .cellEmoji {
+    font-size: 1.5rem;
+
+    .cellSelected & {
+      font-size: 1.7rem;
+    }
+  }
+
+  .instructions {
+    .instructionTips {
+      flex-direction: column;
+      align-items: center;
+
+      span {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .board {
+    max-width: 280px;
+    gap: 2px;
+    padding: 6px;
+  }
+
+  .cellEmoji {
+    font-size: 1.2rem;
+
+    .cellSelected & {
+      font-size: 1.4rem;
+    }
+  }
+}

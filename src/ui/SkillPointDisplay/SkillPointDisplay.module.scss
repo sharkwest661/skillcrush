@@ -1,0 +1,328 @@
+// Skill Point Display Styles
+.skillPointGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+
+  &--small {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+
+    .skillPointItem {
+      padding: 10px 12px;
+    }
+
+    .skillIcon {
+      width: 35px;
+      height: 35px;
+
+      .skillEmoji {
+        font-size: 1.3rem;
+      }
+    }
+
+    .skillLabel {
+      font-size: 0.8rem;
+    }
+
+    .skillPoints {
+      font-size: 0.9rem;
+    }
+  }
+
+  &--large {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+
+    .skillPointItem {
+      padding: 18px 20px;
+    }
+
+    .skillIcon {
+      width: 50px;
+      height: 50px;
+
+      .skillEmoji {
+        font-size: 2rem;
+      }
+    }
+
+    .skillLabel {
+      font-size: 1rem;
+    }
+
+    .skillPoints {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.skillPointItem {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 14px 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+  opacity: var(--skill-opacity, 1);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      var(--skill-color, #ccc) 0%,
+      transparent 100%
+    );
+    opacity: 0.05;
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--skill-color);
+
+    .skillIcon {
+      transform: scale(1.1);
+
+      .skillGlow {
+        opacity: 0.3;
+        transform: scale(1.2);
+      }
+    }
+
+    .skillProgress .skillProgressFill {
+      box-shadow: 0 0 10px var(--skill-color);
+    }
+  }
+}
+
+.skillIcon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px auto;
+  transition: all 0.3s ease;
+  z-index: 2;
+
+  .skillEmoji {
+    font-size: 1.5rem;
+    position: relative;
+    z-index: 3;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+
+  .skillGlow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    filter: blur(8px);
+  }
+}
+
+.skillInfo {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.skillLabel {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 4px;
+  text-transform: capitalize;
+}
+
+.skillPoints {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--skill-color, #666);
+  line-height: 1;
+}
+
+.skillProgress {
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+
+.skillProgressFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: all 0.5s ease;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+}
+
+// Pulse animation for points gained
+.skillPointItem[data-points-gained] {
+  animation: pointsGained 0.6s ease-out;
+}
+
+@keyframes pointsGained {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--skill-color);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+// Zero points state
+.skillPointItem[data-points="0"] {
+  opacity: 0.6;
+
+  .skillEmoji {
+    filter: grayscale(50%) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+
+  .skillPoints {
+    color: #a0aec0;
+  }
+
+  .skillProgress {
+    opacity: 0.5;
+  }
+}
+
+// High points state (10+)
+.skillPointItem[data-points-high] {
+  .skillIcon {
+    animation: skillGlow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes skillGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px var(--skill-color));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px var(--skill-color));
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .skillPointGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+
+    &--small {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    &--large {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+
+  .skillPointItem {
+    padding: 12px 14px;
+  }
+
+  .skillIcon {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 6px;
+
+    .skillEmoji {
+      font-size: 1.3rem;
+    }
+  }
+
+  .skillLabel {
+    font-size: 0.8rem;
+  }
+
+  .skillPoints {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skillPointGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .skillPointItem {
+    padding: 10px 12px;
+  }
+
+  .skillIcon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+
+    .skillEmoji {
+      font-size: 1.1rem;
+    }
+  }
+
+  .skillLabel {
+    font-size: 0.75rem;
+  }
+
+  .skillPoints {
+    font-size: 0.85rem;
+  }
+
+  .skillProgress {
+    height: 3px;
+    margin-top: 6px;
+  }
+}
